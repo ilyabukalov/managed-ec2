@@ -20,7 +20,7 @@ const CODEBASE_FOLDERS = [
 const app = new App();
 
 // Create VPC and Security Group
-const vpcPersonal = new Network(app, 'Network', {
+const vpcPersonal = new Network(app, 'PersonalNetwork', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */
@@ -36,19 +36,19 @@ const vpcPersonal = new Network(app, 'Network', {
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 });
 
-const s3 = new S3(app, 'S3', {
+const s3 = new S3(app, 'PersonalS3', {
   codebaseFolders: CODEBASE_FOLDERS.map(x => x.folderName),
   env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
 
 });
 
-const keys = new Keys(app, 'Keys', {
+const keys = new Keys(app, 'PersonalKeys', {
   env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION }
 });
 
 // Create EC2 Instance
 // We will pass props to ServerResources to create the EC2 instance
-const serverResources = new Server(app, 'EC2', {
+const serverResources = new Server(app, 'PersonalServer', {
   env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
   vpc: vpcPersonal.vpc,
   eip: vpcPersonal.eip,
@@ -60,7 +60,9 @@ const serverResources = new Server(app, 'EC2', {
   backupBucket: s3.backupBucket
 });
 
-new Automation(app, 'Automation', {
+serverResources.addDependency(keys); // somewhy automatically not recognized, maybe because we use only hardcoded values
+
+new Automation(app, 'PersonalAutomation', {
   env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
   backupBucketName: s3.backupBucket.bucketName,
   targets: CODEBASE_FOLDERS.map(x => x.serviceName),
