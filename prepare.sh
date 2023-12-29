@@ -9,3 +9,6 @@ export MACHINE_IMAGE_ID=/aws/service/canonical/ubuntu/server/22.04/stable/202309
 # aws ec2 describe-images --region us-east-1 --image-ids ami-0fc5d935ebf8bc3bc
 export MACHINE_ROOT_VOLUME=/dev/sda1
 # to enable system manager plugin (aws ssm start-session) to work with aws-cli - need to run native aws-cli (not docker container). Plugin does not work in docker aws-cli setup
+
+npm run cdk deploy "*"
+npm run cdk destroy "*"
