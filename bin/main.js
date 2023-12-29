@@ -37,7 +37,7 @@ const vpcPersonal = new Network(app, 'PersonalNetwork', {
 });
 
 const s3 = new S3(app, 'PersonalS3', {
-  codebaseFolders: CODEBASE_FOLDERS.map(x => x.folderName),
+  codebaseFolders: CODEBASE_FOLDERS,
   env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
 
 });
