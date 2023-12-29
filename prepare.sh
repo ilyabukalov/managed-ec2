@@ -1,0 +1,1 @@
+npm run cdk bootstrap aws://123456789012/us-east-1
