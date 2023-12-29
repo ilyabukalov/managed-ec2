@@ -16,6 +16,7 @@
     "aws-cdk": "^2.114.1"
   },
   "dependencies": {
+    "@cdklabs/cdk-ssm-documents": "^0.0.41",
     "aws-cdk-lib": "^2.114.1"
   }
 }
