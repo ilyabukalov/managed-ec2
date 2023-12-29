@@ -11,5 +11,6 @@
       "test"
     ]
   },
+  "requireApproval": "never",
   "output": "cdk.out"
 }
